@@ -63,18 +63,12 @@ void AddNote(void) {
     }
     flush_line();
 
-    if (r.mm < 1 || r.mm > 12 || r.dd < 1 || r.dd > days_in_month(r.mm, r.yy)) {
-        puts("Invalid day or month for the given year.");
-        fclose(fp);
-        return;
-    }
-
-    /* ---- NEW: validate the date before proceeding ---- */
-    if (!is_valid_date(r.dd, r.mm, r.yy)) {
-        puts("Invalid day for the given month and year.");
-        fclose(fp);
-        return;
-    }
+    /* ✅ Improved validation: check valid month and day */
+if (days_in_month(r.mm, r.yy) == 0 || r.dd < 1 || r.dd > days_in_month(r.mm, r.yy)) {
+    puts("Invalid day for the given month and year.");
+    fclose(fp);
+    return;
+}
 
     printf("Enter the Note (max 49 chars): ");
     if (scanf(" %49[^\n]", r.note) != 1) {
